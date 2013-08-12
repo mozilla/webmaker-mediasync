@@ -3,59 +3,95 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
  var SERVICES = {},
-     subscribedServices,
+     subscribedServices = [],
      MediaSync = {},
      async = require( "async" ),
      request = require( "request" ),
      KEYS = {};
 
-SERVICES.youtube = function( callback ) {
-  // "key=AI39si5ZfBxRlydtwyL9VaAA9uOAP5J_HBIKyGJ4mZFMT-IalVyAJ5nyi_xadcONfKwcrSXl9DPFWZx_y1K1ccJ1ZbhpZf_quQ"
-  // https://gdata.youtube.com/feeds/api/users/{{ id }}/uploads?alt=json
-  // XHR.get( "https://gdata.youtube.com/feeds/api/users/Ezimodner/uploads?alt=json", function( data ) {
-  //   var videos = data.feed.entry;
+KEYS.youtube = "key=AI39si5ZfBxRlydtwyL9VaAA9uOAP5J_HBIKyGJ4mZFMT-IalVyAJ5nyi_xadcONfKwcrSXl9DPFWZx_y1K1ccJ1ZbhpZf_quQ";
+KEYS.soundcloud = "client_id=908c9df6f4cd8299277dc162e1bd0806";
 
-  //   for ( var i = 0; i < videos.length; i++ ) {
-  //     MediaUtils.getMetaData( videos[ i ].link[ 0 ].href, onSuccess );
-  //   }
-  // });
+SERVICES.youtube = function( callback ) {
+  request({
+    method: "GET",
+    headers: {
+      "X-GData-Key": KEYS.youtube
+    },
+    uri: "https://gdata.youtube.com/feeds/api/users/Ezimodner/uploads?alt=json"
+  }, function( err, response, body ) {
+
+    if ( err ) {
+      return callback( err );
+    }
+
+    var data = JSON.parse( body );
+    callback( null, data.feed.entry );
+
+  });
 };
 
 SERVICES.soundcloud = function( callback ) {
-  // https://api.soundcloud.com/users/{{ id }}/tracks?client_id=908c9df6f4cd8299277dc162e1bd0806
+  request({
+    method: "GET",
+    uri: "https://api.soundcloud.com/users/octobersveryown/tracks.json?" + KEYS.soundcloud
+  }, function( err, response, body ) {
+
+    if ( err ) {
+      return callback( err );
+    }
+
+    var data = JSON.parse( body );
+    callback( null, data );
+  });
 };
 
 SERVICES.flickr = function( callback ) {
-
+  callback( null, [] );
 };
 
 // What the fuck.
 SERVICES.rackspace = function( callback ) {
-
-};
-
-MediaSync.subscribe = function( services ) {
-  subscribedServices = services;
+  callback( null, [] );
 };
 
 MediaSync.get = function( req, res ) {
   function getData( service, callback ) {
-    console.log(service);
-    callback( null, [] );
+    SERVICES[ service ]( function( err, results ) {
+
+      if ( err ) {
+        return res.json( 500, { status: "failure", reason: "retrieving data for " + service " returned an error" } );
+      }
+
+      results = {
+        type: service,
+        data: results
+      };
+
+      callback( null, results );
+    });
   }
 
-  async.map( SERVICES, getData, function( err, results ) {
-    res.json({ status: "okay"});
+  async.map( subscribedServices, getData, function( err, results ) {
+
+    if ( err ) {
+      return res.json( 500, { status: "failure", reason: err } );
+    }
+
+    res.json({ status: "okay", data: results });
   });
 };
 
-module.exports = function( app, options, services ) {
-  MediaSync.subscribe( services );
+module.exports = function( app, options ) {
 
   // Setup any API keys
   for ( var key in options.keys ) {
     if ( options.keys.hasOwnProperty( key ) ) {
-      KEYS[ key ] = options.keys[ key ];
+      if ( key === "rackspace" ) {
+        KEYS[ key ] = options.keys[ key ];
+      }
+
+      subscribedServices.push( key );
     }
   }
 
