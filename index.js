@@ -4,7 +4,7 @@
 
  var SERVICES = {},
      subscribedServices,
-     MediaSync,
+     MediaSync = {},
      async = require( "async" ),
      request = require( "request" ),
      KEYS = {};
@@ -12,6 +12,13 @@
 SERVICES.youtube = function( callback ) {
   // "key=AI39si5ZfBxRlydtwyL9VaAA9uOAP5J_HBIKyGJ4mZFMT-IalVyAJ5nyi_xadcONfKwcrSXl9DPFWZx_y1K1ccJ1ZbhpZf_quQ"
   // https://gdata.youtube.com/feeds/api/users/{{ id }}/uploads?alt=json
+  // XHR.get( "https://gdata.youtube.com/feeds/api/users/Ezimodner/uploads?alt=json", function( data ) {
+  //   var videos = data.feed.entry;
+
+  //   for ( var i = 0; i < videos.length; i++ ) {
+  //     MediaUtils.getMetaData( videos[ i ].link[ 0 ].href, onSuccess );
+  //   }
+  // });
 };
 
 SERVICES.soundcloud = function( callback ) {
@@ -27,21 +34,19 @@ SERVICES.rackspace = function( callback ) {
 
 };
 
-MediaSync = {
-  subscribe: function( services ) {
-    subscribedServices = services;
-  },
-  get: function( req, res ) {
+MediaSync.subscribe = function( services ) {
+  subscribedServices = services;
+};
 
-    function getData( service, callback ) {
-      console.log(service);
-      callback( null, [] );
-    }
-
-    async.map( SERVICES, getData, function( err, results ) {
-      res.json({ status: "okay"});
-    });
+MediaSync.get = function( req, res ) {
+  function getData( service, callback ) {
+    console.log(service);
+    callback( null, [] );
   }
+
+  async.map( SERVICES, getData, function( err, results ) {
+    res.json({ status: "okay"});
+  });
 };
 
 module.exports = function( app, options, services ) {
