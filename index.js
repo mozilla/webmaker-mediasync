@@ -3,7 +3,12 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
  var SERVICES = require( "./lib/services" ),
-     MediaSync = require( "./lib/mediasync" ),
+     MediaSync,
+     subscribedServices = [
+       "youtube",
+       "soundcloud",
+       "flickr"
+     ],
      KEYS = require( "./lib/keys" );
 
 module.exports = function( app, options ) {
@@ -12,15 +17,17 @@ module.exports = function( app, options ) {
 
   if ( options.serviceKeys ) {
     // Rather than use defaults, overwrite
-    MediaSync.subscribedServices = [];
+    subscribedServices = [];
     // Setup any API keys
     for ( var key in options.serviceKeys ) {
       if ( options.serviceKeys.hasOwnProperty( key ) ) {
         KEYS[ key ] = options.serviceKeys[ key ];
-        MediaSync.subscribedServices.push( key );
+        subscribedServices.push( key );
       }
     }
   }
+
+  MediaSync = require( "./lib/mediasync" )( subscribedServices, options.loginAPI );
 
   app.get( "/api/webmaker/mediasync", MediaSync.all );
   app.get( "/api/webmaker/mediasync/:service", MediaSync.get );
