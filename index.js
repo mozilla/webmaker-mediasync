@@ -29,6 +29,5 @@ module.exports = function( app, options ) {
 
   MediaSync = require( "./lib/mediasync" )( subscribedServices, options.loginAPI );
 
-  app.get( "/api/webmaker/mediasync", MediaSync.all );
   app.get( "/api/webmaker/mediasync/:service", MediaSync.get );
 };
