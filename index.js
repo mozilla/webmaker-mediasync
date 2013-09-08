@@ -4,11 +4,6 @@
 
  var SERVICES = require( "./lib/services" ),
      MediaSync,
-     subscribedServices = [
-       "youtube",
-       "soundcloud",
-       "flickr"
-     ],
      KEYS = require( "./lib/keys" );
 
 module.exports = function( app, options ) {
@@ -22,13 +17,11 @@ module.exports = function( app, options ) {
     for ( var key in options.serviceKeys ) {
       if ( options.serviceKeys.hasOwnProperty( key ) ) {
         KEYS[ key ] = options.serviceKeys[ key ];
-        subscribedServices.push( key );
       }
     }
   }
 
-  MediaSync = require( "./lib/mediasync" )( subscribedServices, options.loginAPI );
+  MediaSync = require( "./lib/mediasync" )( options.loginAPI );
 
-  app.get( "/api/mediasync/:service", MediaSync.accounts );
   app.get( "/api/search/:service", MediaSync.search );
 };
