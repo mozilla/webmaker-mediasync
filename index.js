@@ -11,8 +11,6 @@ module.exports = function( app, options ) {
   options = options || {};
 
   if ( options.serviceKeys ) {
-    // Rather than use defaults, overwrite
-    subscribedServices = [];
     // Setup any API keys
     for ( var key in options.serviceKeys ) {
       if ( options.serviceKeys.hasOwnProperty( key ) ) {
