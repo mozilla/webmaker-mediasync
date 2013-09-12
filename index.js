@@ -13,7 +13,7 @@ module.exports = function( app, options ) {
   if ( options.serviceKeys ) {
     // Setup any API keys
     for ( var key in options.serviceKeys ) {
-      if ( options.serviceKeys.hasOwnProperty( key ) ) {
+      if ( options.serviceKeys.hasOwnProperty( key ) && options.serviceKeys[ key ] ) {
         KEYS[ key ] = options.serviceKeys[ key ];
       }
     }
