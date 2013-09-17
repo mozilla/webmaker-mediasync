@@ -9,8 +9,9 @@ module.exports = function( grunt ) {
       },
       files: [
         "Gruntfile.js",
+        "package.json",
         "index.js",
-        "lib/*.js"
+        "lib/**/*.js"
       ]
     }
   });

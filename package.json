@@ -1,7 +1,6 @@
 {
   "name": "webmaker-mediasync",
   "version": "0.1.11",
-  "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "git://githuc.com/mjschranz/webmaker-mediasync.git"
