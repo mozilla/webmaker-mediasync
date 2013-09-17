@@ -3,17 +3,16 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 module.exports = function( app, options ) {
-  var MediaSync,
-      SERVICES = require( "./lib/services" ),
-      KEYS = require( "./lib/keys" );
-
   options = options || {};
+
+  var MediaSync,
+      SERVICES = require( "./lib/services" )( options.limit ),
+      KEYS = require( "./lib/keys" );
 
   if ( options.serviceKeys ) {
     // Setup any API keys
     for ( var key in options.serviceKeys ) {
-      if ( options.serviceKeys.hasOwnProperty( key ) && options.serviceKeys[ key ] &&
-           SERVICES[ key ] ) {
+      if ( options.serviceKeys.hasOwnProperty( key ) && options.serviceKeys[ key ] ) {
         KEYS.set( key, options.serviceKeys[ key ] );
       }
     }
