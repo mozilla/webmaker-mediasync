@@ -11,7 +11,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "async": "0.2.9",
-    "JSON-object-traverse": "git://github.com/Pomax/JSON-object-traverse.git#gh-pages",
+    "JSON-object-traverse": "https://github.com/Pomax/JSON-object-traverse/tarball/v0.0.2",
     "querystring": "0.2.0",
     "request": "2.21.0"
   },
