@@ -16,6 +16,8 @@ module.exports = function( app, options ) {
         KEYS.set( key, options.serviceKeys[ key ] );
       }
     }
+  } else {
+    throw new Error( "[webmaker-mediasync]: No service keys were provided!" );
   }
 
   MediaSync = require( "./lib/mediasync" )( options.loginAPI );

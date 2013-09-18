@@ -3,7 +3,7 @@
   "version": "0.1.13",
   "repository": {
     "type": "git",
-    "url": "git://githuc.com/mjschranz/webmaker-mediasync.git"
+    "url": "git://github.com/mjschranz/webmaker-mediasync.git"
   },
   "scripts": {
     "test": "grunt"
@@ -11,6 +11,7 @@
   "license": "MPL-2.0",
   "dependencies": {
     "async": "0.2.9",
+    "JSON-object-traverse": "git://github.com/Pomax/JSON-object-traverse.git#gh-pages",
     "querystring": "0.2.0",
     "request": "2.21.0"
   },
