@@ -7,6 +7,7 @@ module.exports = function( app, options ) {
 
   var MediaSync,
       SERVICES = require( "./lib/services" )( options.limit ),
+      rackspace = require( "./lib/services/rackspace" ),
       KEYS = require( "./lib/keys" );
 
   if ( options.serviceKeys ) {
@@ -23,4 +24,5 @@ module.exports = function( app, options ) {
   MediaSync = require( "./lib/mediasync" );
 
   app.get( "/api/webmaker/search/:service", MediaSync.search );
+  app.get( "/api/webmaker/search/rackspace/containers", rackspace.containers );
 };

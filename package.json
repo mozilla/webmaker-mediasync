@@ -12,6 +12,7 @@
   "dependencies": {
     "async": "0.2.9",
     "JSON-object-traverse": "https://github.com/Pomax/JSON-object-traverse/tarball/v0.0.2",
+    "moment": "2.4.0",
     "querystring": "0.2.0",
     "request": "2.21.0"
   },
