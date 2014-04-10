@@ -21,8 +21,10 @@ module.exports = function( app, options ) {
     throw new Error( "[webmaker-mediasync]: No service keys were provided!" );
   }
 
-  MediaSync = require( "./lib/mediasync" );
+  options.region = options.region || "DFW";
+
+  MediaSync = require( "./lib/mediasync" )( options );
 
   app.get( "/api/webmaker/search/:service", MediaSync.search );
-  app.get( "/api/webmaker/search/rackspace/containers", rackspace.containers );
+  app.get( "/api/webmaker/search/rackspace/containers", rackspace.containers( options ) );
 };

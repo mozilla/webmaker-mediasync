@@ -14,7 +14,8 @@
     "JSON-object-traverse": "https://github.com/Pomax/JSON-object-traverse/tarball/v0.0.2",
     "moment": "2.4.0",
     "querystring": "0.2.0",
-    "request": "2.21.0"
+    "request": "2.21.0",
+    "underscore": "1.6.0"
   },
   "devDependencies": {
     "grunt": "0.4.1",
