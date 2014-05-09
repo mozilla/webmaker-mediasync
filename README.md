@@ -11,6 +11,7 @@ The initialization of the module as very few parameters currently. They are as f
 >
 > + `serviceKeys` - **required** - An object containing API keys for each service you plan to use.
 > + `limit` - Used to specify the amount of results returned in a query. Defaults to 30.
+> + `cacheExpiry` - Used to specify how long searches should be cached, in seconds. Defaults to 1800 seconds.
 
 Example:
 ```
@@ -37,8 +38,9 @@ When initialized, the application will add one endpoint to your application to b
 
 `/api/webmaker/search/{SERVICE}?{QUERYSTRING_PARAMETERS}`
 
->`SERVICE` - Expects a value matching one of the supported services.
-> + **YouTube**, **SoundCloud**, **Giphy** and **Flickr**. These can be any case, we lowercase this value before evaluating.
+>`SERVICE` - Expects a value matching one of the following:
+> + **YouTube**, **SoundCloud**, **Giphy**, **All** and **Flickr**. These can be any case, we lowercase this value before evaluating.
+> + + In the case of **All**, every supported service will have the provided query used against all supported services.
 >
 > `QUERYSTRING_PARAMETERS` - These are used to specify more specific values, such as:
 > + `q` - The search query that you are performing. Must be a URL safe (encoded) value.

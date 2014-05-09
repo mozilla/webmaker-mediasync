@@ -20,7 +20,7 @@ module.exports = function( app, options ) {
     throw new Error( "[webmaker-mediasync]: No service keys were provided!" );
   }
 
-  MediaSync = require( "./lib/mediasync" );
+  MediaSync = require( "./lib/mediasync" )( options );
 
   app.get( "/api/webmaker/search/:service", MediaSync.search );
 };
